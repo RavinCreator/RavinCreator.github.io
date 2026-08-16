@@ -657,21 +657,47 @@
     createEmbers("embers", 30);
     createEmbers("endingEmbers", 36);
 
-    // Play custom background music
+    // Background music with auto-play on first interaction & clear button text
 let bgMusic = new Audio("ROM mp3 music.mp3");
 bgMusic.loop = true;
 let soundOn = false;
 const musicToggle = document.getElementById("musicToggle");
 
-musicToggle.addEventListener("click", () => {
+// Style the button so the text fits nicely
+musicToggle.innerHTML = "♫ Play Music";
+musicToggle.style.width = "auto";
+musicToggle.style.padding = "0 1.2rem";
+musicToggle.style.borderRadius = "999px";
+musicToggle.style.fontFamily = '"Cinzel", serif';
+musicToggle.style.fontSize = "0.75rem";
+musicToggle.style.letterSpacing = "0.08em";
+
+function startMusic() {
+    if (!soundOn) {
+        bgMusic.play().then(() => {
+            soundOn = true;
+            musicToggle.innerHTML = "❚❚ Pause Music";
+            document.removeEventListener("click", startMusic);
+            document.removeEventListener("scroll", startMusic);
+        }).catch(e => console.log("Audio waiting for user interaction"));
+    }
+}
+
+// Automatically start music when the guest first clicks or scrolls anywhere
+document.addEventListener("click", startMusic, { once: true });
+document.addEventListener("scroll", startMusic, { once: true });
+
+// Manual click control for the button
+musicToggle.addEventListener("click", (e) => {
+    e.stopPropagation(); 
     if (!soundOn) {
         bgMusic.play();
         soundOn = true;
-        musicToggle.textContent = "♫";
+        musicToggle.innerHTML = "❚❚ Pause Music";
     } else {
         bgMusic.pause();
         soundOn = false;
-        musicToggle.textContent = "♪";
+        musicToggle.innerHTML = "♫ Play Music";
     }
 });
   </script>
