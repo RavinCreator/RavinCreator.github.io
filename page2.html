@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Other page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280" />
+    <style>
+      body{min-width:1280px}
+    </style>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/page2.html" aria-current="page">Other page</a>
+    </nav>
+    <main>
+      <h1>My other page</h1>
+    </main>
+  </body>
+  <script>
+    (function(){
+      const DW = 1280;
+      function fitDesktop(){
+        const w = window.innerWidth;
+        if(w < DW){
+          document.body.style.zoom = w / DW;
+        } else {
+          document.body.style.zoom = 1;
+        }
+      }
+      fitDesktop();
+      window.addEventListener("resize", fitDesktop);
+      window.addEventListener("orientationchange", fitDesktop);
+    })();
+  </script>
+</html>
